@@ -22,11 +22,18 @@ class LikeView: UIView {
   }
   
   private func commonInit() {
-    setupConstraints()
+    layer.addSublayer(likeLayer)
     addGestureRecognizer(tapGesture)
   }
   
   // MARK: - Layers
+  private lazy var likeLayer: CALayer = {
+    let layer = CALayer()
+    layer.contents = UIImage(named: "like")?.cgImage
+    layer.frame = bounds
+    return layer
+  }()
+  
   private lazy var redCircleLayer: CAShapeLayer = {
     createCircleLayer(with: .red)
   }()
@@ -45,23 +52,6 @@ class LikeView: UIView {
     return layer
   }
   
-  // MARK: - Views
-  private lazy var likeIV: UIImageView = {
-    let image = UIImage(named: "like")
-    let imageView = UIImageView(image: image)
-    
-    addSubview(imageView)
-    
-    return imageView
-  }()
-  
-  // MARK: - Constraints
-  private func setupConstraints() {
-    likeIV.snp.makeConstraints({ make in
-      make.edges.equalToSuperview()
-    })
-  }
-  
   // MARK: - Gestures
   private lazy var tapGesture: UITapGestureRecognizer = {
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapLikeView))
@@ -78,12 +68,12 @@ class LikeView: UIView {
   private func fadeOutLikeView() {
     let anim = CABasicAnimation(keyPath: "opacity")
     anim.delegate = self
-    anim.toValue = 1 - likeIV.layer.opacity
+    anim.toValue = 1 - likeLayer.opacity
     anim.duration = 0.5
     anim.fillMode = .both
     anim.setValue(AnimationKeys.fadeOutLike,
                   forKey: AnimationKeys.animationName.rawValue)
-    likeIV.layer.add(anim, forKey: nil)
+    likeLayer.add(anim, forKey: nil)
   }
   
   private func fadeInRedCircle() {
@@ -119,7 +109,7 @@ class LikeView: UIView {
     anim.fillMode = .both
     anim.setValue(AnimationKeys.whiteCircleFadeIn,
                   forKey: AnimationKeys.animationName.rawValue)
-    likeIV.layer.add(anim, forKey: nil)
+    likeLayer.add(anim, forKey: nil)
   }
 }
 
@@ -139,7 +129,7 @@ extension LikeView: CAAnimationDelegate {
     }
     switch key {
     case .fadeInLike:
-      likeIV.isHidden = false
+      likeLayer.isHidden = false
     default:
       break
     }
@@ -152,7 +142,7 @@ extension LikeView: CAAnimationDelegate {
     }
     switch key {
     case .fadeOutLike:
-      likeIV.isHidden = true
+      likeLayer.isHidden = true
       fadeInRedCircle()
     case .redCircleFadeIn:
       fadeInWhiteCircle()
