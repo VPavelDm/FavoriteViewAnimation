@@ -81,7 +81,7 @@ class LikeView: UIView {
     likeFadeOut.toValue = 1 - likeIV.layer.opacity
     likeFadeOut.duration = 0.5
     likeFadeOut.fillMode = .both
-    likeFadeOut.setValue(AnimationKeys.fadeOut.rawValue,
+    likeFadeOut.setValue(AnimationKeys.fadeOut,
                          forKey: AnimationKeys.animationName.rawValue)
     likeIV.layer.add(likeFadeOut, forKey: nil)
   }
@@ -93,7 +93,7 @@ class LikeView: UIView {
     redCircleSize.toValue = 1
     redCircleSize.duration = 0.5
     redCircleSize.fillMode = .both
-    redCircleSize.setValue(AnimationKeys.redCircleFadeIn.rawValue,
+    redCircleSize.setValue(AnimationKeys.redCircleFadeIn,
                            forKey: AnimationKeys.animationName.rawValue)
     redCircleLayer.add(redCircleSize, forKey: nil)
   }
@@ -105,7 +105,7 @@ class LikeView: UIView {
     whiteCircleSize.toValue = 1
     whiteCircleSize.duration = 0.5
     whiteCircleSize.fillMode = .both
-    whiteCircleSize.setValue(AnimationKeys.whiteCircleFadeIn.rawValue,
+    whiteCircleSize.setValue(AnimationKeys.whiteCircleFadeIn,
                              forKey: AnimationKeys.animationName.rawValue)
     whiteCircleLayer.add(whiteCircleSize, forKey: nil)
   }
@@ -121,10 +121,7 @@ extension LikeView: CAAnimationDelegate {
   
   func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
     typealias Keys = AnimationKeys
-    guard let name = anim.value(forKey: Keys.animationName.rawValue) as? String else {
-      return
-    }
-    guard let key = Keys(rawValue: name) else {
+    guard let key = anim.value(forKey: Keys.animationName.rawValue) as? Keys else {
       return
     }
     switch key {
