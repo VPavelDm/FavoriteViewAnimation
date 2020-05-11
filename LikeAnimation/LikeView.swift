@@ -53,6 +53,36 @@ class LikeView: UIView {
   
   // MARK: - Actions
   @objc private func didTapLikeView() {
-    print("Like view is clicked")
+    let likeFade = CABasicAnimation(keyPath: "opacity")
+    likeFade.toValue = 1 - likeIV.layer.opacity
+    likeFade.duration = 0.5
+    likeFade.fillMode = .both
+    likeFade.delegate = self
+    likeFade.setValue(AnimationKeys.fade.rawValue,
+                      forKey: AnimationKeys.animationName.rawValue)
+    likeIV.layer.add(likeFade, forKey: nil)
+  }
+}
+
+extension LikeView: CAAnimationDelegate {
+  enum AnimationKeys: String {
+    case animationName
+    case fade
+  }
+  
+  func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+    typealias Keys = AnimationKeys
+    guard let name = anim.value(forKey: Keys.animationName.rawValue) as? String else {
+      return
+    }
+    guard let key = Keys(rawValue: name) else {
+      return
+    }
+    switch key {
+    case .fade:
+      likeIV.layer.opacity = 1 - likeIV.layer.opacity
+    default:
+      return
+    }
   }
 }
