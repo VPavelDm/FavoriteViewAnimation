@@ -12,6 +12,14 @@ import SnapKit
 class LikeView: UIView {
   // MARK: - Constraints
   private let duration: CFTimeInterval = 0.2
+  
+  // MARK: - Properties
+  var isFilled: Bool = false {
+    didSet {
+      changeLikeState(isFilled: isFilled)
+    }
+  }
+  
   // MARK: - Initializers
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -25,7 +33,7 @@ class LikeView: UIView {
   
   private func commonInit() {
     layer.addSublayer(likeLayer)
-    changeLikeState(isFilled: false)
+    changeLikeState(isFilled: isFilled)
     addGestureRecognizer(tapGesture)
   }
   
@@ -69,7 +77,11 @@ class LikeView: UIView {
   
   // MARK: - Actions
   @objc private func didTapLikeView() {
-    fadeOutLikeView()
+    if isFilled {
+      isFilled.toggle()
+    } else {
+      fadeOutLikeView()
+    }
   }
   
   private func fadeOutLikeView() {
@@ -137,7 +149,11 @@ extension LikeView: CAAnimationDelegate {
     switch key {
     case .fadeInLike:
       likeLayer.isHidden = false
-      changeLikeState(isFilled: true)
+      isFilled.toggle()
+    case .redCircleFadeIn:
+      redCircleLayer.isHidden = false
+    case .whiteCircleFadeIn:
+      whiteCircleLayer.isHidden = false
     default:
       break
     }
