@@ -11,9 +11,10 @@ import SnapKit
 
 class LikeView: UIView {
   // MARK: - Constraints
-  private let duration: CFTimeInterval = 0.2
+  private let duration: CFTimeInterval = 0.15
   
   // MARK: - Properties
+  private var isAnimationInProgress = false
   var isFilled: Bool = false {
     didSet {
       changeLikeState(isFilled: isFilled)
@@ -104,6 +105,7 @@ class LikeView: UIView {
   
   // MARK: - Actions
   @objc private func didTapLikeView() {
+    guard !isAnimationInProgress else { return }
     if isFilled {
       isFilled.toggle()
     } else {
@@ -199,6 +201,7 @@ extension LikeView: CAAnimationDelegate {
     guard let key = anim.value(forKey: Keys.animationName.rawValue) as? Keys else {
       return
     }
+    isAnimationInProgress = true
     switch key {
     case .fadeInLike:
       likeLayer.isHidden = false
@@ -234,6 +237,7 @@ extension LikeView: CAAnimationDelegate {
     case .moveFireworks:
       dotsLayer.isHidden = true
       dotLayer.removeAllAnimations()
+      isAnimationInProgress = false
     default:
       break
     }
