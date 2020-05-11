@@ -44,7 +44,7 @@ class LikeView: UIView {
     self.layer.addSublayer(layer)
     return layer
   }
-
+  
   // MARK: - Views
   private lazy var likeIV: UIImageView = {
     let image = UIImage(named: "like")
@@ -76,47 +76,73 @@ class LikeView: UIView {
   }
   
   private func fadeOutLikeView() {
-    let likeFadeOut = CABasicAnimation(keyPath: "opacity")
-    likeFadeOut.delegate = self
-    likeFadeOut.toValue = 1 - likeIV.layer.opacity
-    likeFadeOut.duration = 0.5
-    likeFadeOut.fillMode = .both
-    likeFadeOut.setValue(AnimationKeys.fadeOut,
-                         forKey: AnimationKeys.animationName.rawValue)
-    likeIV.layer.add(likeFadeOut, forKey: nil)
+    let anim = CABasicAnimation(keyPath: "opacity")
+    anim.delegate = self
+    anim.toValue = 1 - likeIV.layer.opacity
+    anim.duration = 0.5
+    anim.fillMode = .both
+    anim.setValue(AnimationKeys.fadeOutLike,
+                  forKey: AnimationKeys.animationName.rawValue)
+    likeIV.layer.add(anim, forKey: nil)
   }
   
   private func fadeInRedCircle() {
-    let redCircleSize = CABasicAnimation(keyPath: "transform.scale")
-    redCircleSize.delegate = self
-    redCircleSize.fromValue = 0
-    redCircleSize.toValue = 1
-    redCircleSize.duration = 0.5
-    redCircleSize.fillMode = .both
-    redCircleSize.setValue(AnimationKeys.redCircleFadeIn,
-                           forKey: AnimationKeys.animationName.rawValue)
-    redCircleLayer.add(redCircleSize, forKey: nil)
+    let anim = CABasicAnimation(keyPath: "transform.scale")
+    anim.delegate = self
+    anim.fromValue = 0
+    anim.toValue = 1
+    anim.duration = 0.5
+    anim.fillMode = .both
+    anim.setValue(AnimationKeys.redCircleFadeIn,
+                  forKey: AnimationKeys.animationName.rawValue)
+    redCircleLayer.add(anim, forKey: nil)
   }
   
   private func fadeInWhiteCircle() {
-    let whiteCircleSize = CABasicAnimation(keyPath: "transform.scale")
-    whiteCircleSize.delegate = self
-    whiteCircleSize.fromValue = 0
-    whiteCircleSize.toValue = 1
-    whiteCircleSize.duration = 0.5
-    whiteCircleSize.fillMode = .both
-    whiteCircleSize.setValue(AnimationKeys.whiteCircleFadeIn,
-                             forKey: AnimationKeys.animationName.rawValue)
-    whiteCircleLayer.add(whiteCircleSize, forKey: nil)
+    let anim = CABasicAnimation(keyPath: "transform.scale")
+    anim.delegate = self
+    anim.fromValue = 0
+    anim.toValue = 1
+    anim.duration = 0.5
+    anim.fillMode = .both
+    anim.setValue(AnimationKeys.whiteCircleFadeIn,
+                  forKey: AnimationKeys.animationName.rawValue)
+    whiteCircleLayer.add(anim, forKey: nil)
+  }
+  
+  private func fadeInLikeView() {
+    let anim = CABasicAnimation(keyPath: "transform.scale")
+    anim.delegate = self
+    anim.fromValue = 0
+    anim.toValue = 1
+    anim.duration = 0.5
+    anim.fillMode = .both
+    anim.setValue(AnimationKeys.whiteCircleFadeIn,
+                  forKey: AnimationKeys.animationName.rawValue)
+    likeIV.layer.add(anim, forKey: nil)
   }
 }
 
 extension LikeView: CAAnimationDelegate {
   enum AnimationKeys: String {
     case animationName
-    case fadeOut
+    case fadeOutLike
+    case fadeInLike
     case redCircleFadeIn
     case whiteCircleFadeIn
+  }
+  
+  func animationDidStart(_ anim: CAAnimation) {
+    typealias Keys = AnimationKeys
+    guard let key = anim.value(forKey: Keys.animationName.rawValue) as? Keys else {
+      return
+    }
+    switch key {
+    case .fadeInLike:
+      likeIV.isHidden = false
+    default:
+      break
+    }
   }
   
   func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
@@ -125,15 +151,16 @@ extension LikeView: CAAnimationDelegate {
       return
     }
     switch key {
-    case .fadeOut:
-      likeIV.layer.opacity = 1 - likeIV.layer.opacity
+    case .fadeOutLike:
+      likeIV.isHidden = true
       fadeInRedCircle()
     case .redCircleFadeIn:
       fadeInWhiteCircle()
     case .whiteCircleFadeIn:
-      break
+      redCircleLayer.isHidden = true
+      whiteCircleLayer.isHidden = true
     default:
-      return
+      break
     }
   }
 }
