@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 
 class LikeView: UIView {
+  // MARK: - Constraints
+  private let duration: CFTimeInterval = 0.2
   // MARK: - Initializers
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -23,16 +25,12 @@ class LikeView: UIView {
   
   private func commonInit() {
     layer.addSublayer(likeLayer)
+    changeLikeState(isFilled: false)
     addGestureRecognizer(tapGesture)
   }
   
   // MARK: - Layers
-  private lazy var likeLayer: CALayer = {
-    let layer = CALayer()
-    layer.contents = UIImage(named: "like")?.cgImage
-    layer.frame = bounds
-    return layer
-  }()
+  private lazy var likeLayer: CALayer = CALayer()
   
   private lazy var redCircleLayer: CAShapeLayer = {
     createCircleLayer(with: .red)
@@ -52,6 +50,15 @@ class LikeView: UIView {
     return layer
   }
   
+  private func changeLikeState(isFilled: Bool) {
+    let maskLayer = CALayer()
+    maskLayer.frame = bounds
+    maskLayer.contents = UIImage(named: isFilled ? "like.fill" : "like")?.cgImage
+    likeLayer.frame = bounds
+    likeLayer.mask = maskLayer
+    likeLayer.backgroundColor = UIColor.red.cgColor
+  }
+  
   // MARK: - Gestures
   private lazy var tapGesture: UITapGestureRecognizer = {
     let tap = UITapGestureRecognizer(target: self, action: #selector(didTapLikeView))
@@ -69,7 +76,7 @@ class LikeView: UIView {
     let anim = CABasicAnimation(keyPath: "opacity")
     anim.delegate = self
     anim.toValue = 1 - likeLayer.opacity
-    anim.duration = 0.5
+    anim.duration = duration
     anim.fillMode = .both
     anim.setValue(AnimationKeys.fadeOutLike,
                   forKey: AnimationKeys.animationName.rawValue)
@@ -81,7 +88,7 @@ class LikeView: UIView {
     anim.delegate = self
     anim.fromValue = 0
     anim.toValue = 1
-    anim.duration = 0.5
+    anim.duration = duration
     anim.fillMode = .both
     anim.setValue(AnimationKeys.redCircleFadeIn,
                   forKey: AnimationKeys.animationName.rawValue)
@@ -93,7 +100,7 @@ class LikeView: UIView {
     anim.delegate = self
     anim.fromValue = 0
     anim.toValue = 1
-    anim.duration = 0.5
+    anim.duration = duration
     anim.fillMode = .both
     anim.setValue(AnimationKeys.whiteCircleFadeIn,
                   forKey: AnimationKeys.animationName.rawValue)
@@ -105,9 +112,9 @@ class LikeView: UIView {
     anim.delegate = self
     anim.fromValue = 0
     anim.toValue = 1
-    anim.duration = 0.5
+    anim.duration = duration
     anim.fillMode = .both
-    anim.setValue(AnimationKeys.whiteCircleFadeIn,
+    anim.setValue(AnimationKeys.fadeInLike,
                   forKey: AnimationKeys.animationName.rawValue)
     likeLayer.add(anim, forKey: nil)
   }
@@ -130,6 +137,7 @@ extension LikeView: CAAnimationDelegate {
     switch key {
     case .fadeInLike:
       likeLayer.isHidden = false
+      changeLikeState(isFilled: true)
     default:
       break
     }
@@ -149,6 +157,7 @@ extension LikeView: CAAnimationDelegate {
     case .whiteCircleFadeIn:
       redCircleLayer.isHidden = true
       whiteCircleLayer.isHidden = true
+      fadeInLikeView()
     default:
       break
     }
