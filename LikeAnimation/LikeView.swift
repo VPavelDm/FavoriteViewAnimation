@@ -33,6 +33,7 @@ class LikeView: UIView {
   
   private func commonInit() {
     layer.addSublayer(likeLayer)
+    layer.addSublayer(dotsLayer)
     changeLikeState(isFilled: isFilled)
     addGestureRecognizer(tapGesture)
   }
@@ -46,6 +47,32 @@ class LikeView: UIView {
   
   private lazy var whiteCircleLayer: CAShapeLayer = {
     createCircleLayer(with: .white)
+  }()
+  
+  private lazy var dotsLayer: CALayer = {
+    let layer = CAReplicatorLayer()
+    layer.isHidden = true
+    layer.frame = bounds
+    layer.addSublayer(dotLayer)
+    let dotsCount = 8
+    layer.instanceCount = dotsCount
+    let angle = CGFloat.pi * 2 / CGFloat(dotsCount)
+    layer.instanceTransform = CATransform3DMakeRotation(angle, 0, 0, 1)
+    let colorOffset: Float = -0.5
+    layer.instanceRedOffset = colorOffset
+    layer.instanceGreenOffset = colorOffset
+    layer.instanceBlueOffset = colorOffset
+    return layer
+  }()
+  
+  private lazy var dotLayer: CALayer = {
+    let width: CGFloat = 5
+    let height: CGFloat = 5
+    let layer = CALayer()
+    layer.frame = CGRect(x: 0, y: 0, width: width, height: height)
+    layer.backgroundColor = UIColor.red.cgColor
+    layer.cornerRadius = width / 2
+    return layer
   }()
   
   private func createCircleLayer(with color: UIColor) -> CAShapeLayer {
@@ -130,6 +157,31 @@ class LikeView: UIView {
                   forKey: AnimationKeys.animationName.rawValue)
     likeLayer.add(anim, forKey: nil)
   }
+  
+  private func makeFireworks() {
+    let opacityAnim = CABasicAnimation(keyPath: "opacity")
+    opacityAnim.toValue = 0
+    
+    let positionAnim = CABasicAnimation(keyPath: "position")
+    let currentPosition = dotLayer.position
+    positionAnim.toValue = NSValue(cgPoint: .init(x: currentPosition.x - 5,
+                                                  y: currentPosition.y - 5))
+    
+    let scaleAnim = CABasicAnimation(keyPath: "transform.scale")
+    scaleAnim.fromValue = 0
+    scaleAnim.toValue = 1.5
+    
+    let anim = CAAnimationGroup()
+    anim.delegate = self
+    anim.animations = [opacityAnim, positionAnim, scaleAnim]
+    anim.duration = 2 * duration
+    anim.fillMode = .both
+    anim.setValue(AnimationKeys.moveFireworks,
+                  forKey: AnimationKeys.animationName.rawValue)
+    anim.isRemovedOnCompletion = false
+    
+    dotLayer.add(anim, forKey: nil)
+  }
 }
 
 extension LikeView: CAAnimationDelegate {
@@ -139,6 +191,7 @@ extension LikeView: CAAnimationDelegate {
     case fadeInLike
     case redCircleFadeIn
     case whiteCircleFadeIn
+    case moveFireworks
   }
   
   func animationDidStart(_ anim: CAAnimation) {
@@ -154,6 +207,8 @@ extension LikeView: CAAnimationDelegate {
       redCircleLayer.isHidden = false
     case .whiteCircleFadeIn:
       whiteCircleLayer.isHidden = false
+    case .moveFireworks:
+      dotsLayer.isHidden = false
     default:
       break
     }
@@ -174,6 +229,11 @@ extension LikeView: CAAnimationDelegate {
       redCircleLayer.isHidden = true
       whiteCircleLayer.isHidden = true
       fadeInLikeView()
+    case .fadeInLike:
+      makeFireworks()
+    case .moveFireworks:
+      dotsLayer.isHidden = true
+      dotLayer.removeAllAnimations()
     default:
       break
     }
