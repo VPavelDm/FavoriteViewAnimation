@@ -26,6 +26,25 @@ class LikeView: UIView {
     addGestureRecognizer(tapGesture)
   }
   
+  // MARK: - Layers
+  private lazy var redCircleLayer: CAShapeLayer = {
+    createCircleLayer(with: .red)
+  }()
+  
+  private lazy var whiteCircleLayer: CAShapeLayer = {
+    createCircleLayer(with: .white)
+  }()
+  
+  private func createCircleLayer(with color: UIColor) -> CAShapeLayer {
+    let layer = CAShapeLayer()
+    layer.path = UIBezierPath(roundedRect: self.bounds,
+                              cornerRadius: self.bounds.height / 2).cgPath
+    layer.frame = self.bounds
+    layer.fillColor = color.cgColor
+    self.layer.addSublayer(layer)
+    return layer
+  }
+
   // MARK: - Views
   private lazy var likeIV: UIImageView = {
     let image = UIImage(named: "like")
@@ -53,14 +72,30 @@ class LikeView: UIView {
   
   // MARK: - Actions
   @objc private func didTapLikeView() {
-    let likeFade = CABasicAnimation(keyPath: "opacity")
-    likeFade.toValue = 1 - likeIV.layer.opacity
-    likeFade.duration = 0.5
-    likeFade.fillMode = .both
-    likeFade.delegate = self
-    likeFade.setValue(AnimationKeys.fade.rawValue,
-                      forKey: AnimationKeys.animationName.rawValue)
-    likeIV.layer.add(likeFade, forKey: nil)
+    let likeFadeOut = CABasicAnimation(keyPath: "opacity")
+    likeFadeOut.toValue = 1 - likeIV.layer.opacity
+    likeFadeOut.duration = 0.5
+    likeFadeOut.fillMode = .both
+    likeFadeOut.delegate = self
+    likeFadeOut.setValue(AnimationKeys.fade.rawValue,
+                         forKey: AnimationKeys.animationName.rawValue)
+    likeIV.layer.add(likeFadeOut, forKey: nil)
+    
+    let redCircleSize = CABasicAnimation(keyPath: "transform.scale")
+    redCircleSize.fromValue = 0
+    redCircleSize.toValue = 1
+    redCircleSize.duration = 0.5
+    redCircleSize.beginTime = CACurrentMediaTime() + likeFadeOut.duration
+    redCircleSize.fillMode = .both
+    redCircleLayer.add(redCircleSize, forKey: nil)
+    
+    let whiteCircleSize = CABasicAnimation(keyPath: "transform.scale")
+    whiteCircleSize.fromValue = 0
+    whiteCircleSize.toValue = 1
+    whiteCircleSize.duration = 0.5
+    whiteCircleSize.beginTime = redCircleSize.beginTime + redCircleSize.duration
+    whiteCircleSize.fillMode = .both
+    whiteCircleLayer.add(whiteCircleSize, forKey: nil)
   }
 }
 
