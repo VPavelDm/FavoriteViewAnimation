@@ -7,15 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E6859C30C315CE4FE3D9E97A /* Pods_LikeAnimation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806C25476774A1A5B2C3165D /* Pods_LikeAnimation.framework */; };
 		E9D1DF192469501B00785135 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1DF182469501B00785135 /* AppDelegate.swift */; };
 		E9D1DF1B2469501B00785135 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1DF1A2469501B00785135 /* SceneDelegate.swift */; };
 		E9D1DF1D2469501B00785135 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1DF1C2469501B00785135 /* ViewController.swift */; };
 		E9D1DF202469501B00785135 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9D1DF1E2469501B00785135 /* Main.storyboard */; };
 		E9D1DF222469501C00785135 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9D1DF212469501C00785135 /* Assets.xcassets */; };
 		E9D1DF252469501C00785135 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9D1DF232469501C00785135 /* LaunchScreen.storyboard */; };
+		E9D1DF2D2469507300785135 /* LikeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1DF2C2469507300785135 /* LikeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		11AE752EFF61CC43A0158DAB /* Pods-LikeAnimation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeAnimation.release.xcconfig"; path = "Target Support Files/Pods-LikeAnimation/Pods-LikeAnimation.release.xcconfig"; sourceTree = "<group>"; };
+		806C25476774A1A5B2C3165D /* Pods_LikeAnimation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeAnimation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA0390BECA28933E8FD3ECB2 /* Pods-LikeAnimation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeAnimation.debug.xcconfig"; path = "Target Support Files/Pods-LikeAnimation/Pods-LikeAnimation.debug.xcconfig"; sourceTree = "<group>"; };
 		E9D1DF152469501B00785135 /* LikeAnimation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LikeAnimation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9D1DF182469501B00785135 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9D1DF1A2469501B00785135 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +29,7 @@
 		E9D1DF212469501C00785135 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E9D1DF242469501C00785135 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E9D1DF262469501C00785135 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E9D1DF2C2469507300785135 /* LikeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +37,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6859C30C315CE4FE3D9E97A /* Pods_LikeAnimation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B075BFC0B6B77589EF3A16F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				806C25476774A1A5B2C3165D /* Pods_LikeAnimation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8C4EC14AB3576B36A0AC29D3 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				AA0390BECA28933E8FD3ECB2 /* Pods-LikeAnimation.debug.xcconfig */,
+				11AE752EFF61CC43A0158DAB /* Pods-LikeAnimation.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E9D1DF0C2469501B00785135 = {
 			isa = PBXGroup;
 			children = (
 				E9D1DF172469501B00785135 /* LikeAnimation */,
 				E9D1DF162469501B00785135 /* Products */,
+				8C4EC14AB3576B36A0AC29D3 /* Pods */,
+				6B075BFC0B6B77589EF3A16F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -63,6 +90,7 @@
 				E9D1DF212469501C00785135 /* Assets.xcassets */,
 				E9D1DF232469501C00785135 /* LaunchScreen.storyboard */,
 				E9D1DF262469501C00785135 /* Info.plist */,
+				E9D1DF2C2469507300785135 /* LikeView.swift */,
 			);
 			path = LikeAnimation;
 			sourceTree = "<group>";
@@ -74,9 +102,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E9D1DF292469501C00785135 /* Build configuration list for PBXNativeTarget "LikeAnimation" */;
 			buildPhases = (
+				D801770104A3F160D0AFA8EA /* [CP] Check Pods Manifest.lock */,
 				E9D1DF112469501B00785135 /* Sources */,
 				E9D1DF122469501B00785135 /* Frameworks */,
 				E9D1DF132469501B00785135 /* Resources */,
+				C41F33C9FE54AF962438081E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -133,12 +163,55 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		C41F33C9FE54AF962438081E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LikeAnimation/Pods-LikeAnimation-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LikeAnimation/Pods-LikeAnimation-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LikeAnimation/Pods-LikeAnimation-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D801770104A3F160D0AFA8EA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LikeAnimation-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E9D1DF112469501B00785135 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E9D1DF1D2469501B00785135 /* ViewController.swift in Sources */,
+				E9D1DF2D2469507300785135 /* LikeView.swift in Sources */,
 				E9D1DF192469501B00785135 /* AppDelegate.swift in Sources */,
 				E9D1DF1B2469501B00785135 /* SceneDelegate.swift in Sources */,
 			);
@@ -282,6 +355,7 @@
 		};
 		E9D1DF2A2469501C00785135 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA0390BECA28933E8FD3ECB2 /* Pods-LikeAnimation.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -300,6 +374,7 @@
 		};
 		E9D1DF2B2469501C00785135 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 11AE752EFF61CC43A0158DAB /* Pods-LikeAnimation.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
