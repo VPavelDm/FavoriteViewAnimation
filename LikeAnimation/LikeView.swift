@@ -72,29 +72,41 @@ class LikeView: UIView {
   
   // MARK: - Actions
   @objc private func didTapLikeView() {
+    fadeOutLikeView()
+  }
+  
+  private func fadeOutLikeView() {
     let likeFadeOut = CABasicAnimation(keyPath: "opacity")
+    likeFadeOut.delegate = self
     likeFadeOut.toValue = 1 - likeIV.layer.opacity
     likeFadeOut.duration = 0.5
     likeFadeOut.fillMode = .both
-    likeFadeOut.delegate = self
-    likeFadeOut.setValue(AnimationKeys.fade.rawValue,
+    likeFadeOut.setValue(AnimationKeys.fadeOut.rawValue,
                          forKey: AnimationKeys.animationName.rawValue)
     likeIV.layer.add(likeFadeOut, forKey: nil)
-    
+  }
+  
+  private func fadeInRedCircle() {
     let redCircleSize = CABasicAnimation(keyPath: "transform.scale")
+    redCircleSize.delegate = self
     redCircleSize.fromValue = 0
     redCircleSize.toValue = 1
     redCircleSize.duration = 0.5
-    redCircleSize.beginTime = CACurrentMediaTime() + likeFadeOut.duration
     redCircleSize.fillMode = .both
+    redCircleSize.setValue(AnimationKeys.redCircleFadeIn.rawValue,
+                           forKey: AnimationKeys.animationName.rawValue)
     redCircleLayer.add(redCircleSize, forKey: nil)
-    
+  }
+  
+  private func fadeInWhiteCircle() {
     let whiteCircleSize = CABasicAnimation(keyPath: "transform.scale")
+    whiteCircleSize.delegate = self
     whiteCircleSize.fromValue = 0
     whiteCircleSize.toValue = 1
     whiteCircleSize.duration = 0.5
-    whiteCircleSize.beginTime = redCircleSize.beginTime + redCircleSize.duration
     whiteCircleSize.fillMode = .both
+    whiteCircleSize.setValue(AnimationKeys.whiteCircleFadeIn.rawValue,
+                             forKey: AnimationKeys.animationName.rawValue)
     whiteCircleLayer.add(whiteCircleSize, forKey: nil)
   }
 }
@@ -102,7 +114,9 @@ class LikeView: UIView {
 extension LikeView: CAAnimationDelegate {
   enum AnimationKeys: String {
     case animationName
-    case fade
+    case fadeOut
+    case redCircleFadeIn
+    case whiteCircleFadeIn
   }
   
   func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
@@ -114,8 +128,13 @@ extension LikeView: CAAnimationDelegate {
       return
     }
     switch key {
-    case .fade:
+    case .fadeOut:
       likeIV.layer.opacity = 1 - likeIV.layer.opacity
+      fadeInRedCircle()
+    case .redCircleFadeIn:
+      fadeInWhiteCircle()
+    case .whiteCircleFadeIn:
+      break
     default:
       return
     }
