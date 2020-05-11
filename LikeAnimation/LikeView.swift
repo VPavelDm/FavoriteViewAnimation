@@ -34,7 +34,9 @@ class LikeView: UIView {
   
   private func commonInit() {
     layer.addSublayer(likeLayer)
-    layer.addSublayer(dotsLayer)
+    movableDotsLayers.forEach({ layer in
+      self.layer.addSublayer(layer)
+    })
     changeLikeState(isFilled: isFilled)
     addGestureRecognizer(tapGesture)
   }
@@ -50,12 +52,36 @@ class LikeView: UIView {
     createCircleLayer(with: .white)
   }()
   
-  private lazy var dotsLayer: CALayer = {
+  private lazy var movableDotsLayers: [CALayer] = {
+    movableDotLayers
+      .enumerated()
+      .map({ (index, dotLayer) -> CALayer in
+        let layer = createDotsLayer(itemLayer: dotLayer)
+        layer.transform = CATransform3DMakeRotation(CGFloat.pi * 2 + CGFloat(index * 4), 0, 0, 1)
+        return layer
+      })
+  }()
+  
+  private lazy var movableDotLayers: [CALayer] = {
+    [createDotLayer(), createDotLayer()]
+  }()
+  
+  private func createDotLayer() -> CALayer {
+    let width: CGFloat = 5
+    let height: CGFloat = 5
+    let layer = CALayer()
+    layer.frame = CGRect(x: 0, y: 0, width: width, height: height)
+    layer.backgroundColor = UIColor.red.cgColor
+    layer.cornerRadius = width / 2
+    return layer
+  }
+  
+  private func createDotsLayer(itemLayer: CALayer) -> CAReplicatorLayer {
     let layer = CAReplicatorLayer()
     layer.isHidden = true
     layer.frame = bounds
-    layer.addSublayer(dotLayer)
-    let dotsCount = 8
+    layer.addSublayer(itemLayer)
+    let dotsCount = 7
     layer.instanceCount = dotsCount
     let angle = CGFloat.pi * 2 / CGFloat(dotsCount)
     layer.instanceTransform = CATransform3DMakeRotation(angle, 0, 0, 1)
@@ -64,17 +90,7 @@ class LikeView: UIView {
     layer.instanceGreenOffset = colorOffset
     layer.instanceBlueOffset = colorOffset
     return layer
-  }()
-  
-  private lazy var dotLayer: CALayer = {
-    let width: CGFloat = 5
-    let height: CGFloat = 5
-    let layer = CALayer()
-    layer.frame = CGRect(x: 0, y: 0, width: width, height: height)
-    layer.backgroundColor = UIColor.red.cgColor
-    layer.cornerRadius = width / 2
-    return layer
-  }()
+  }
   
   private func createCircleLayer(with color: UIColor) -> CAShapeLayer {
     let layer = CAShapeLayer()
@@ -161,28 +177,33 @@ class LikeView: UIView {
   }
   
   private func makeFireworks() {
-    let opacityAnim = CABasicAnimation(keyPath: "opacity")
-    opacityAnim.toValue = 0
-    
-    let positionAnim = CABasicAnimation(keyPath: "position")
-    let currentPosition = dotLayer.position
-    positionAnim.toValue = NSValue(cgPoint: .init(x: currentPosition.x - 5,
-                                                  y: currentPosition.y - 5))
-    
-    let scaleAnim = CABasicAnimation(keyPath: "transform.scale")
-    scaleAnim.fromValue = 0
-    scaleAnim.toValue = 1.5
-    
-    let anim = CAAnimationGroup()
-    anim.delegate = self
-    anim.animations = [opacityAnim, positionAnim, scaleAnim]
-    anim.duration = 2 * duration
-    anim.fillMode = .both
-    anim.setValue(AnimationKeys.moveFireworks,
-                  forKey: AnimationKeys.animationName.rawValue)
-    anim.isRemovedOnCompletion = false
-    
-    dotLayer.add(anim, forKey: nil)
+    movableDotLayers
+      .enumerated()
+      .forEach({ (index, dotLayer) in
+        let opacityAnim = CABasicAnimation(keyPath: "opacity")
+        opacityAnim.toValue = 0
+        
+        let positionAnim = CABasicAnimation(keyPath: "position")
+        let currentPosition = dotLayer.position
+        let newPosition = CGPoint(x: currentPosition.x - CGFloat(3 + index * 5),
+                                  y: currentPosition.y - CGFloat(3 + index * 5))
+        positionAnim.toValue = NSValue(cgPoint: newPosition)
+        
+        let scaleAnim = CABasicAnimation(keyPath: "transform.scale")
+        scaleAnim.fromValue = 0
+        scaleAnim.toValue = 1.5
+        
+        let anim = CAAnimationGroup()
+        anim.delegate = self
+        anim.animations = [opacityAnim, positionAnim, scaleAnim]
+        anim.duration = 2 * duration
+        anim.fillMode = .both
+        anim.setValue(AnimationKeys.moveFireworks,
+                      forKey: AnimationKeys.animationName.rawValue)
+        anim.isRemovedOnCompletion = false
+        
+        dotLayer.add(anim, forKey: nil)
+      })
   }
 }
 
@@ -211,7 +232,9 @@ extension LikeView: CAAnimationDelegate {
     case .whiteCircleFadeIn:
       whiteCircleLayer.isHidden = false
     case .moveFireworks:
-      dotsLayer.isHidden = false
+      movableDotsLayers.forEach({ layer in
+        layer.isHidden = false
+      })
     default:
       break
     }
@@ -235,8 +258,12 @@ extension LikeView: CAAnimationDelegate {
     case .fadeInLike:
       makeFireworks()
     case .moveFireworks:
-      dotsLayer.isHidden = true
-      dotLayer.removeAllAnimations()
+      movableDotsLayers.forEach({ layer in
+        layer.isHidden = true
+      })
+      movableDotLayers.forEach({ layer in
+        layer.removeAllAnimations()
+      })
       isAnimationInProgress = false
     default:
       break
