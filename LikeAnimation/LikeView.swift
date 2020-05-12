@@ -11,7 +11,7 @@ import SnapKit
 
 class LikeView: UIView {
   // MARK: - Constraints
-  private let duration: CFTimeInterval = 0.15
+  private let duration: CFTimeInterval = 0.13
   
   // MARK: - Properties
   private var isAnimationInProgress = false
@@ -63,16 +63,16 @@ class LikeView: UIView {
   }()
   
   private lazy var movableDotLayers: [CALayer] = {
-    [createDotLayer(), createDotLayer()]
+    [createDotLayer(width: 5, height: 5),
+     createDotLayer(width: 10, height: 10)]
   }()
   
-  private func createDotLayer() -> CALayer {
-    let width: CGFloat = 5
-    let height: CGFloat = 5
+  private func createDotLayer(width: CGFloat, height: CGFloat) -> CALayer {
     let layer = CALayer()
     layer.frame = CGRect(x: 0, y: 0, width: width, height: height)
     layer.backgroundColor = UIColor.red.cgColor
     layer.cornerRadius = width / 2
+    layer.backgroundColor = UIColor(red: 1, green: 0, blue: 1, alpha: 1).cgColor
     return layer
   }
   
@@ -85,10 +85,8 @@ class LikeView: UIView {
     layer.instanceCount = dotsCount
     let angle = CGFloat.pi * 2 / CGFloat(dotsCount)
     layer.instanceTransform = CATransform3DMakeRotation(angle, 0, 0, 1)
-    let colorOffset: Float = -0.2
-    layer.instanceRedOffset = colorOffset
-    layer.instanceGreenOffset = colorOffset
-    layer.instanceBlueOffset = colorOffset
+    let offset = -1 / Float(dotsCount)
+    layer.instanceBlueOffset = offset
     return layer
   }
   
@@ -181,22 +179,22 @@ class LikeView: UIView {
       .enumerated()
       .forEach({ (index, dotLayer) in
         let opacityAnim = CABasicAnimation(keyPath: "opacity")
-        opacityAnim.toValue = 0
+        opacityAnim.toValue = 0.5
         
         let positionAnim = CABasicAnimation(keyPath: "position")
         let currentPosition = dotLayer.position
-        let newPosition = CGPoint(x: currentPosition.x - CGFloat(3 + index * 5),
-                                  y: currentPosition.y - CGFloat(3 + index * 5))
+        let newPosition = CGPoint(x: currentPosition.x - CGFloat(10 + index * 10),
+                                  y: currentPosition.y - CGFloat(10 + index * 10))
         positionAnim.toValue = NSValue(cgPoint: newPosition)
         
         let scaleAnim = CABasicAnimation(keyPath: "transform.scale")
         scaleAnim.fromValue = 0
-        scaleAnim.toValue = 1.5
+        scaleAnim.toValue = 1
         
         let anim = CAAnimationGroup()
         anim.delegate = self
         anim.animations = [opacityAnim, positionAnim, scaleAnim]
-        anim.duration = 2 * duration
+        anim.duration = 1.5 * duration
         anim.fillMode = .both
         anim.setValue(AnimationKeys.moveFireworks,
                       forKey: AnimationKeys.animationName.rawValue)
