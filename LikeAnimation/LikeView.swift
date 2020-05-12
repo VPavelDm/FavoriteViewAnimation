@@ -85,7 +85,7 @@ class LikeView: UIView {
     layer.instanceCount = dotsCount
     let angle = CGFloat.pi * 2 / CGFloat(dotsCount)
     layer.instanceTransform = CATransform3DMakeRotation(angle, 0, 0, 1)
-    let colorOffset: Float = -0.5
+    let colorOffset: Float = -0.2
     layer.instanceRedOffset = colorOffset
     layer.instanceGreenOffset = colorOffset
     layer.instanceBlueOffset = colorOffset
