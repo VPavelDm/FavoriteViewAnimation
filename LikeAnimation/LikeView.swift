@@ -178,8 +178,8 @@ class LikeView: UIView {
     movableDotLayers
       .enumerated()
       .forEach({ (index, dotLayer) in
-        let opacityAnim = CAKeyframeAnimation(keyPath: "opacity")
-        opacityAnim.values = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0]
+        let opacityAnim = CABasicAnimation(keyPath: "opacity")
+        opacityAnim.toValue = 0.0
         
         let positionAnim = CAKeyframeAnimation(keyPath: "position")
         let currentPosition = dotLayer.position
@@ -189,8 +189,9 @@ class LikeView: UIView {
                                      y: firstPosition.y - CGFloat(2 + index * 3))
         positionAnim.values = [NSValue(cgPoint: firstPosition), NSValue(cgPoint: secondPosition)]
         
-        let scaleAnim = CAKeyframeAnimation(keyPath: "transform.scale")
-        scaleAnim.values = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0]
+        let scaleAnim = CABasicAnimation(keyPath: "transform.scale")
+        scaleAnim.fromValue = 1.0
+        scaleAnim.toValue = 0.0
         
         let anim = CAAnimationGroup()
         anim.delegate = self
