@@ -21,11 +21,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OMR-Ei-Lq1" customClass="ColorView" customModule="LikeAnimation" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="389" width="414" height="128"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xmz-lT-LFN" customClass="LikeView" customModule="LikeAnimation" customModuleProvider="target">
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xmz-lT-LFN" customClass="LikeView" customModule="LikeAnimation" customModuleProvider="target">
                                 <rect key="frame" x="185" y="257" width="44" height="44"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
@@ -36,15 +32,10 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="OMR-Ei-Lq1" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.142857" id="6pH-hw-ZBr"/>
-                            <constraint firstItem="OMR-Ei-Lq1" firstAttribute="top" secondItem="xmz-lT-LFN" secondAttribute="bottom" constant="88" id="BUJ-un-qI8"/>
                             <constraint firstItem="xmz-lT-LFN" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6fm-sD-EQ5" secondAttribute="bottom" constant="76" id="CGw-6O-vba"/>
                             <constraint firstItem="6fm-sD-EQ5" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Neg-T5-rI9"/>
                             <constraint firstItem="xmz-lT-LFN" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Smg-xS-4UE"/>
-                            <constraint firstItem="OMR-Ei-Lq1" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="X5F-jM-8Hb"/>
                             <constraint firstItem="6fm-sD-EQ5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="32" id="b0g-LS-uYY"/>
-                            <constraint firstItem="OMR-Ei-Lq1" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="fQi-ha-kWN"/>
-                            <constraint firstItem="OMR-Ei-Lq1" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="ld3-S6-xzl"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>

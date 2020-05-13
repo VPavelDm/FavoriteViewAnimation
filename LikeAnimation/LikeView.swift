@@ -11,7 +11,7 @@ import SnapKit
 
 class LikeView: UIView {
   // MARK: - Constraints
-  private let duration: CFTimeInterval = 0.13
+  private let duration: CFTimeInterval = 0.15
   
   // MARK: - Properties
   private var isAnimationInProgress = false
@@ -178,23 +178,25 @@ class LikeView: UIView {
     movableDotLayers
       .enumerated()
       .forEach({ (index, dotLayer) in
-        let opacityAnim = CABasicAnimation(keyPath: "opacity")
-        opacityAnim.toValue = 0.5
+        let opacityAnim = CAKeyframeAnimation(keyPath: "opacity")
+        opacityAnim.values = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0]
         
-        let positionAnim = CABasicAnimation(keyPath: "position")
+        let positionAnim = CAKeyframeAnimation(keyPath: "position")
         let currentPosition = dotLayer.position
-        let newPosition = CGPoint(x: currentPosition.x - CGFloat(10 + index * 10),
-                                  y: currentPosition.y - CGFloat(10 + index * 10))
-        positionAnim.toValue = NSValue(cgPoint: newPosition)
+        let firstPosition = CGPoint(x: currentPosition.x - CGFloat(10 + index * 10),
+                                    y: currentPosition.y - CGFloat(10 + index * 10))
+        let secondPosition = CGPoint(x: firstPosition.x - CGFloat(2 + index * 3),
+                                     y: firstPosition.y - CGFloat(2 + index * 3))
+        positionAnim.values = [NSValue(cgPoint: firstPosition), NSValue(cgPoint: secondPosition)]
         
-        let scaleAnim = CABasicAnimation(keyPath: "transform.scale")
-        scaleAnim.fromValue = 0
-        scaleAnim.toValue = 1
+        let scaleAnim = CAKeyframeAnimation(keyPath: "transform.scale")
+        scaleAnim.values = [1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0.0]
         
         let anim = CAAnimationGroup()
         anim.delegate = self
         anim.animations = [opacityAnim, positionAnim, scaleAnim]
-        anim.duration = 1.5 * duration
+        anim.duration = duration
+        anim.speed = 0.2
         anim.fillMode = .both
         anim.setValue(AnimationKeys.moveFireworks,
                       forKey: AnimationKeys.animationName.rawValue)
