@@ -21,8 +21,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xmz-lT-LFN" customClass="LikeView" customModule="LikeAnimation" customModuleProvider="target">
-                                <rect key="frame" x="185" y="257" width="44" height="44"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xmz-lT-LFN" customClass="LikeView" customModule="LikeAnimation" customModuleProvider="target">
+                                <rect key="frame" x="185" y="295" width="44" height="44"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="M4D-nG-XOw"/>
@@ -32,7 +32,7 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="xmz-lT-LFN" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6fm-sD-EQ5" secondAttribute="bottom" constant="76" id="CGw-6O-vba"/>
+                            <constraint firstItem="xmz-lT-LFN" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" multiplier="0.7" id="Fn3-6e-NmE"/>
                             <constraint firstItem="6fm-sD-EQ5" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Neg-T5-rI9"/>
                             <constraint firstItem="xmz-lT-LFN" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="Smg-xS-4UE"/>
                             <constraint firstItem="6fm-sD-EQ5" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="32" id="b0g-LS-uYY"/>

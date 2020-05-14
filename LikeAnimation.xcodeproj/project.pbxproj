@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E6859C30C315CE4FE3D9E97A /* Pods_LikeAnimation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 806C25476774A1A5B2C3165D /* Pods_LikeAnimation.framework */; };
-		E90D43B0246AD5BF00AEBAEB /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90D43AF246AD5BF00AEBAEB /* ColorView.swift */; };
 		E9D1DF192469501B00785135 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1DF182469501B00785135 /* AppDelegate.swift */; };
 		E9D1DF1B2469501B00785135 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1DF1A2469501B00785135 /* SceneDelegate.swift */; };
 		E9D1DF1D2469501B00785135 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D1DF1C2469501B00785135 /* ViewController.swift */; };
@@ -22,7 +21,6 @@
 		11AE752EFF61CC43A0158DAB /* Pods-LikeAnimation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeAnimation.release.xcconfig"; path = "Target Support Files/Pods-LikeAnimation/Pods-LikeAnimation.release.xcconfig"; sourceTree = "<group>"; };
 		806C25476774A1A5B2C3165D /* Pods_LikeAnimation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeAnimation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA0390BECA28933E8FD3ECB2 /* Pods-LikeAnimation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeAnimation.debug.xcconfig"; path = "Target Support Files/Pods-LikeAnimation/Pods-LikeAnimation.debug.xcconfig"; sourceTree = "<group>"; };
-		E90D43AF246AD5BF00AEBAEB /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
 		E9D1DF152469501B00785135 /* LikeAnimation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LikeAnimation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9D1DF182469501B00785135 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9D1DF1A2469501B00785135 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,7 +90,6 @@
 				E9D1DF232469501C00785135 /* LaunchScreen.storyboard */,
 				E9D1DF262469501C00785135 /* Info.plist */,
 				E9D1DF2C2469507300785135 /* LikeView.swift */,
-				E90D43AF246AD5BF00AEBAEB /* ColorView.swift */,
 			);
 			path = LikeAnimation;
 			sourceTree = "<group>";
@@ -216,7 +213,6 @@
 				E9D1DF2D2469507300785135 /* LikeView.swift in Sources */,
 				E9D1DF192469501B00785135 /* AppDelegate.swift in Sources */,
 				E9D1DF1B2469501B00785135 /* SceneDelegate.swift in Sources */,
-				E90D43B0246AD5BF00AEBAEB /* ColorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

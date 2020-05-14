@@ -183,10 +183,12 @@ class LikeView: UIView {
         
         let positionAnim = CAKeyframeAnimation(keyPath: "position")
         let currentPosition = dotLayer.position
-        let firstPosition = CGPoint(x: currentPosition.x - CGFloat(10 + index * 10),
-                                    y: currentPosition.y - CGFloat(10 + index * 10))
-        let secondPosition = CGPoint(x: firstPosition.x - CGFloat(2 + index * 3),
-                                     y: firstPosition.y - CGFloat(2 + index * 3))
+        let fCoefficient = Int(bounds.width / 6)
+        let sCoefficient = fCoefficient / 2
+        let firstPosition = CGPoint(x: currentPosition.x - CGFloat(fCoefficient * (index + 1)),
+                                    y: currentPosition.y - CGFloat(fCoefficient * (index + 1)))
+        let secondPosition = CGPoint(x: firstPosition.x - CGFloat(sCoefficient * (index + 1)),
+                                     y: firstPosition.y - CGFloat(sCoefficient * (index + 1)))
         positionAnim.values = [NSValue(cgPoint: firstPosition), NSValue(cgPoint: secondPosition)]
         
         let scaleAnim = CABasicAnimation(keyPath: "transform.scale")
