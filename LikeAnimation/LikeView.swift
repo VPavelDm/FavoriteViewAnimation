@@ -33,7 +33,7 @@ class LikeView: UIView {
   
   private func commonInit() {
     layer.addSublayer(likeLayer)
-    movableDotsLayers.forEach({ layer in
+    movableDotReplicatorLayers.forEach({ layer in
       self.layer.addSublayer(layer)
     })
     changeLikeState(isFilled: isFilled)
@@ -51,8 +51,8 @@ class LikeView: UIView {
     createCircleLayer(with: .white)
   }()
   
-  private lazy var movableDotsLayers: [CALayer] = {
-    movableDotLayers
+  private lazy var movableDotReplicatorLayers: [CALayer] = {
+    movableDotShapeLayers
       .enumerated()
       .map({ (index, dotLayer) -> CALayer in
         let layer = createDotsLayer(itemLayer: dotLayer)
@@ -61,7 +61,7 @@ class LikeView: UIView {
       })
   }()
   
-  private lazy var movableDotLayers: [CALayer] = {
+  private lazy var movableDotShapeLayers: [CALayer] = {
     [createDotLayer(width: 5, height: 5),
      createDotLayer(width: 10, height: 10)]
   }()
@@ -77,7 +77,7 @@ class LikeView: UIView {
   
   private func createDotsLayer(itemLayer: CALayer) -> CAReplicatorLayer {
     let layer = CAReplicatorLayer()
-    layer.isHidden = false
+    layer.isHidden = true
     layer.frame = bounds
     layer.addSublayer(itemLayer)
     let dotsCount = 7
@@ -130,11 +130,11 @@ class LikeView: UIView {
     likeLayer.removeAllAnimations()
     redCircleLayer.removeAllAnimations()
     whiteCircleLayer.removeAllAnimations()
-    movableDotsLayers.forEach({ $0.removeAllAnimations() })
+    movableDotShapeLayers.forEach({ $0.removeAllAnimations() })
     likeLayer.isHidden = false
     redCircleLayer.isHidden = true
     whiteCircleLayer.isHidden = true
-    movableDotsLayers.forEach({ $0.isHidden = true })
+    movableDotReplicatorLayers.forEach({ $0.isHidden = true })
   }
   
   private func fadeOutLikeView() {
@@ -185,7 +185,7 @@ class LikeView: UIView {
   }
   
   private func makeFireworks() {
-    movableDotLayers
+    movableDotShapeLayers
       .enumerated()
       .forEach({ (index, dotLayer) in
         let opacityAnim = CABasicAnimation(keyPath: "opacity")
@@ -243,7 +243,7 @@ extension LikeView: CAAnimationDelegate {
     case .whiteCircleFadeIn:
       whiteCircleLayer.isHidden = false
     case .moveFireworks:
-      movableDotsLayers.forEach({ layer in
+      movableDotReplicatorLayers.forEach({ layer in
         layer.isHidden = false
       })
     default:
@@ -270,10 +270,10 @@ extension LikeView: CAAnimationDelegate {
     case .fadeInLike:
       makeFireworks()
     case .moveFireworks:
-      movableDotsLayers.forEach({ layer in
+      movableDotReplicatorLayers.forEach({ layer in
         layer.isHidden = true
       })
-      movableDotLayers.forEach({ layer in
+      movableDotShapeLayers.forEach({ layer in
         layer.removeAllAnimations()
       })
     default:
