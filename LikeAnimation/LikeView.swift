@@ -14,7 +14,6 @@ class LikeView: UIView {
   private let duration: CFTimeInterval = 0.15
   
   // MARK: - Properties
-  private var isAnimationInProgress = false
   var isFilled: Bool = false {
     didSet {
       changeLikeState(isFilled: isFilled)
@@ -78,7 +77,7 @@ class LikeView: UIView {
   
   private func createDotsLayer(itemLayer: CALayer) -> CAReplicatorLayer {
     let layer = CAReplicatorLayer()
-    layer.isHidden = true
+    layer.isHidden = false
     layer.frame = bounds
     layer.addSublayer(itemLayer)
     let dotsCount = 7
@@ -119,12 +118,23 @@ class LikeView: UIView {
   
   // MARK: - Actions
   @objc private func didTapLikeView() {
-    guard !isAnimationInProgress else { return }
-    if isFilled {
-      isFilled.toggle()
-    } else {
+    if !isFilled {
       fadeOutLikeView()
+    } else {
+      stopAnimations()
     }
+    isFilled.toggle()
+  }
+  
+  private func stopAnimations() {
+    likeLayer.removeAllAnimations()
+    redCircleLayer.removeAllAnimations()
+    whiteCircleLayer.removeAllAnimations()
+    movableDotsLayers.forEach({ $0.removeAllAnimations() })
+    likeLayer.isHidden = false
+    redCircleLayer.isHidden = true
+    whiteCircleLayer.isHidden = true
+    movableDotsLayers.forEach({ $0.isHidden = true })
   }
   
   private func fadeOutLikeView() {
@@ -225,11 +235,9 @@ extension LikeView: CAAnimationDelegate {
     guard let key = anim.value(forKey: Keys.animationName.rawValue) as? Keys else {
       return
     }
-    isAnimationInProgress = true
     switch key {
     case .fadeInLike:
       likeLayer.isHidden = false
-      isFilled.toggle()
     case .redCircleFadeIn:
       redCircleLayer.isHidden = false
     case .whiteCircleFadeIn:
@@ -248,6 +256,7 @@ extension LikeView: CAAnimationDelegate {
     guard let key = anim.value(forKey: Keys.animationName.rawValue) as? Keys else {
       return
     }
+    guard flag else { return }
     switch key {
     case .fadeOutLike:
       likeLayer.isHidden = true
@@ -267,7 +276,6 @@ extension LikeView: CAAnimationDelegate {
       movableDotLayers.forEach({ layer in
         layer.removeAllAnimations()
       })
-      isAnimationInProgress = false
     default:
       break
     }
