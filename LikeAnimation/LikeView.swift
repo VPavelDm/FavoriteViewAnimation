@@ -12,6 +12,12 @@ import SnapKit
 class LikeView: UIView {
   // MARK: - Constraints
   private let duration: CFTimeInterval = 0.15
+  var firstDotsRadius: CGFloat = 3
+  var secondDotsRadius: CGFloat = 4.5
+  var firstDotsPositionCoefficient: Int = 5
+  var secondDotsPositionCoefficient: Int = 10
+  var dotsDistanceCoefficient: Int = 4
+  var dotsCount: Int = 7
   
   // MARK: - Properties
   var isFilled: Bool = false {
@@ -56,21 +62,21 @@ class LikeView: UIView {
       .enumerated()
       .map({ (index, dotLayer) -> CALayer in
         let layer = createDotsLayer(itemLayer: dotLayer)
-        layer.transform = CATransform3DMakeRotation(CGFloat.pi * 2 + CGFloat(index * 4), 0, 0, 1)
+        layer.transform = CATransform3DMakeRotation(CGFloat.pi * 2 + CGFloat(index * dotsDistanceCoefficient), 0, 0, 1)
         return layer
       })
   }()
   
   private lazy var movableDotShapeLayers: [CALayer] = {
-    [createDotLayer(width: 5, height: 5),
-     createDotLayer(width: 10, height: 10)]
+    [createDotLayer(radius: firstDotsRadius),
+     createDotLayer(radius: secondDotsRadius)]
   }()
   
-  private func createDotLayer(width: CGFloat, height: CGFloat) -> CALayer {
+  private func createDotLayer(radius: CGFloat) -> CALayer {
     let layer = CALayer()
-    layer.frame = CGRect(x: 0, y: 0, width: width, height: height)
+    layer.frame = CGRect(x: 0, y: 0, width: radius * 2, height: radius * 2)
     layer.backgroundColor = UIColor.red.cgColor
-    layer.cornerRadius = width / 2
+    layer.cornerRadius = radius
     layer.backgroundColor = UIColor(red: 1, green: 0, blue: 1, alpha: 1).cgColor
     return layer
   }
@@ -80,7 +86,6 @@ class LikeView: UIView {
     layer.isHidden = true
     layer.frame = bounds
     layer.addSublayer(itemLayer)
-    let dotsCount = 7
     layer.instanceCount = dotsCount
     let angle = CGFloat.pi * 2 / CGFloat(dotsCount)
     layer.instanceTransform = CATransform3DMakeRotation(angle, 0, 0, 1)
@@ -193,12 +198,10 @@ class LikeView: UIView {
         
         let positionAnim = CAKeyframeAnimation(keyPath: "position")
         let currentPosition = dotLayer.position
-        let fCoefficient = Int(bounds.width / 6)
-        let sCoefficient = fCoefficient / 2
-        let firstPosition = CGPoint(x: currentPosition.x - CGFloat(fCoefficient * (index + 1)),
-                                    y: currentPosition.y - CGFloat(fCoefficient * (index + 1)))
-        let secondPosition = CGPoint(x: firstPosition.x - CGFloat(sCoefficient * (index + 1)),
-                                     y: firstPosition.y - CGFloat(sCoefficient * (index + 1)))
+        let firstPosition = CGPoint(x: currentPosition.x - CGFloat(firstDotsPositionCoefficient * (index + 1)),
+                                    y: currentPosition.y - CGFloat(firstDotsPositionCoefficient * (index + 1)))
+        let secondPosition = CGPoint(x: firstPosition.x - CGFloat(secondDotsPositionCoefficient * (index + 1)),
+                                     y: firstPosition.y - CGFloat(secondDotsPositionCoefficient * (index + 1)))
         positionAnim.values = [NSValue(cgPoint: firstPosition), NSValue(cgPoint: secondPosition)]
         
         let scaleAnim = CABasicAnimation(keyPath: "transform.scale")
